@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora de prestamos</title>
+</head>
+
+<body>
+    <script>
+        function calcularPrestamo() {
+            const edad = parseInt(prompt("Ingrese su edad:"));
+
+            if (edad >= 18) {
+                let tasaInteres;
+
+                if (edad < 30) {
+                    tasaInteres = 8; // Tasa para adultos jóvenes (18-29 años)
+                } else if (edad >= 30 && edad < 40) {
+                    tasaInteres = 10; // Tasa para mayores de 30 (30-39 años)
+                } else {
+                    tasaInteres = 12; // Tasa para mayores de 40 (40+ años)
+                }
+
+                const montoPrestamo = parseFloat(prompt("Ingrese el monto del préstamo:"));
+
+                while (isNaN(montoPrestamo) || montoPrestamo <= 0) {
+                    montoPrestamo = parseFloat(prompt("Monto no válido. Ingrese el monto del préstamo nuevamente:"));
+                }
+
+                const numeroAnios = parseInt(prompt("Ingrese el número de años:"));
+
+                while (isNaN(numeroAnios) || numeroAnios <= 0) {
+                    numeroAnios = parseInt(prompt("Número de años no válido. Ingrese el número de años nuevamente:"));
+                }
+
+                const tasaMensual = tasaInteres / 12 / 100;
+                const numeroPagos = numeroAnios * 12;
+
+                const montoMensual = (montoPrestamo * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -numeroPagos));
+                const montoTotal = montoMensual * numeroPagos;
+
+                return {
+                    montoMensual: montoMensual.toFixed(2),
+                    montoTotal: montoTotal.toFixed(2)
+                };
+            } else {
+                return "Lo siento, debes ser mayor de edad para solicitar un préstamo.";
+            }
+        }
+
+        function mostrarResultado() {
+            const resultado = calcularPrestamo();
+
+            if (typeof resultado === "string") {
+                alert(resultado);
+            } else {
+                alert(`Monto mensual a pagar: $${resultado.montoMensual}\nMonto total a pagar: $${resultado.montoTotal}`);
+            }
+        }
+
+        mostrarResultado();
+    </script>
+</body>
+
+</html>
